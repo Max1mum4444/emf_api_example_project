@@ -6,6 +6,7 @@ use App\Repository\RatingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RatingRepository::class)
@@ -21,18 +22,21 @@ class Rating
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank()
+     * @Assert\PositiveOrZero()
      */
     private float $value;
 
     /**
      * @ORM\ManyToMany(targetEntity=Movie::class, inversedBy="ratings")
      */
-    private $movie;
+    private Collection $movie;
 
     public function __construct()
     {

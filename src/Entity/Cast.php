@@ -7,6 +7,7 @@ use App\Repository\CastRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CastRepository::class)
@@ -17,18 +18,20 @@ class Cast
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer", options={"unsigned":true})
+     * @Assert\NotBlank()
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $fullName;
 
     /**
      * @ORM\ManyToMany(targetEntity=Movie::class, inversedBy="casts")
      */
-    private $movie;
+    private Collection $movie;
 
     public function __construct()
     {

@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
@@ -26,12 +27,13 @@ class Movie
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned":true})
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $name;
 
@@ -42,18 +44,19 @@ class Movie
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $director;
 
     /**
      * @ORM\ManyToMany(targetEntity=Cast::class, mappedBy="movie")
      */
-    private ArrayCollection $casts;
+    private Collection $casts;
 
     /**
      * @ORM\ManyToMany(targetEntity=Rating::class, mappedBy="movie")
      */
-    private ArrayCollection $ratings;
+    private Collection $ratings;
 
     public function __construct()
     {

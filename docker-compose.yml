@@ -22,10 +22,10 @@ services:
     # php
     php74-service:
         build:
-            context: .
-            dockerfile: ./docker/php/Dockerfile
+            context: ./docker/php/
+            dockerfile: Dockerfile
         links:
-            - redis
+            - redis-service
         container_name: php74-container
         ports:
             - "9000:9000"
@@ -63,5 +63,34 @@ services:
         networks:
             - nginx-php74-mysql8-node
 
-    redis:
+    redis-service:
         image: redis:alpine
+        container_name: redis-container
+        networks:
+            - nginx-php74-mysql8-node
+
+    varnish-service:
+        container_name: varnish-container
+        depends_on:
+            - nginx-service
+        build:
+            context: ./docker/varnish/
+            dockerfile: Dockerfile
+        links:
+            - nginx-service
+        ports:
+            - "5002:6081"
+        networks:
+            - nginx-php74-mysql8-node
+
+    adminer-service:
+        container_name: adminer-container
+        image: adminer
+        hostname: adminer
+        restart: always
+        ports:
+            - "8085:8080"
+        depends_on:
+            - mysql8-service
+        networks:
+            - nginx-php74-mysql8-node

@@ -1,12 +1,4 @@
 <?php
-if (isset($_GET['db']) && $_GET['db'] == 1) {
-    require_once 'adminer.php';
-    exit;
-}
-if (isset($_GET['server'])) {
-    require_once 'adminer.php';
-    exit;
-}
 
 use App\Kernel;
 
